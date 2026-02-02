@@ -7,6 +7,15 @@
 
   <!-- Confetti library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+const noMessages = [
+  "pls 🥺",
+  "come onnn 😭",
+  "don’t break my heart 💔",
+  "okay fine… 😔"
+];
+
+let noCount = 0;
+let noLocked = false; // IMPORTANT
 
   <style>
     :root {
@@ -49,6 +58,9 @@
       text-align: center;
       box-shadow: 0 18px 60px rgba(0,0,0,.15);
     }
+#noBtn {
+  top: auto;
+}
 
     .art {
       width: min(260px, 80vw);
@@ -278,26 +290,32 @@
       growYes();
     }
 
-    zone.addEventListener("pointermove", e => {
-      const b = noBtn.getBoundingClientRect();
-      const d = Math.hypot(
-        (b.left + b.width / 2) - e.clientX,
-        (b.top + b.height / 2) - e.clientY
-      );
-      if (d < 140) moveNo(e.clientX, e.clientY);
-    });
+zone.addEventListener("pointermove", e => {
+  if (noLocked) return; // STOP RUNNING AFTER CLICKS START
+
+  const b = noBtn.getBoundingClientRect();
+  const d = Math.hypot(
+    (b.left + b.width / 2) - e.clientX,
+    (b.top + b.height / 2) - e.clientY
+  );
+
+  if (d < 140) moveNo(e.clientX, e.clientY);
+});
+
 
    noBtn.addEventListener("click", e => {
   e.preventDefault();
+  e.stopPropagation();
+
+  noLocked = true; // freeze movement
 
   if (noCount < noMessages.length) {
     noBtn.innerText = noMessages[noCount];
     growYes();
     noCount++;
   } else {
-    // Remove NO forever 😈
     noBtn.style.display = "none";
-    hint.innerText = "You know what to do now 😉";
+    hint.innerText = "Only one choice left 😌❤️";
   }
 });
 
@@ -313,6 +331,7 @@
   </script>
 </body>
 </html>
+
 
 
 
