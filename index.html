@@ -7,15 +7,7 @@
 
   <!-- Confetti library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-const noMessages = [
-  "pls 🥺",
-  "come onnn 😭",
-  "don’t break my heart 💔",
-  "okay fine… 😔"
-];
 
-let noCount = 0;
-let noLocked = false; // IMPORTANT
 
   <style>
     :root {
@@ -204,6 +196,15 @@ let noLocked = false; // IMPORTANT
   </main>
 
   <script>
+    const noMessages = [
+  "pls 🥺",
+  "come onnn 😭",
+  "don’t break my heart 💔",
+  "okay fine… 😔"
+];
+
+let noCount = 0;
+let noLocked = false; // IMPORTANT
     const zone = document.getElementById("zone");
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
