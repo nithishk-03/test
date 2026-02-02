@@ -287,7 +287,20 @@
       if (d < 140) moveNo(e.clientX, e.clientY);
     });
 
-    noBtn.addEventListener("click", e => e.preventDefault());
+   noBtn.addEventListener("click", e => {
+  e.preventDefault();
+
+  if (noCount < noMessages.length) {
+    noBtn.innerText = noMessages[noCount];
+    growYes();
+    noCount++;
+  } else {
+    // Remove NO forever 😈
+    noBtn.style.display = "none";
+    hint.innerText = "You know what to do now 😉";
+  }
+});
+
 
     /* ---------- YES CLICK ---------- */
     yesBtn.addEventListener("click", () => {
@@ -300,6 +313,7 @@
   </script>
 </body>
 </html>
+
 
 
 
