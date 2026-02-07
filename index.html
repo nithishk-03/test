@@ -1,339 +1,1231 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Will you be my Valentine?</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine? 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <!-- Confetti library -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
 
+        /* Floating hearts background animation */
+        .hearts-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
 
-  <style>
-    :root {
-      --bg1: #ffd6e7;
-      --bg2: #ffeef6;
-      --card: #ffffffcc;
-      --yes: #ff3b7a;
-      --yesHover: #ff1f68;
-    }
+        .floating-heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.3;
+            animation: float-up 10s infinite ease-in;
+        }
 
-    * { box-sizing: border-box; }
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
 
-    body {
-      margin: 0;
-      min-height: 100svh;
-      display: grid;
-      place-items: center;
-      background: radial-gradient(circle at top, var(--bg2), var(--bg1));
-      font-family: system-ui, sans-serif;
-      overflow: hidden;
-      padding: 16px;
-    }
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 500px;
+            transition: opacity 0.5s ease;
+        }
 
-    /* FULL-SCREEN CONFETTI CANVAS */
-    #confettiCanvas {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 9999;
-    }
+        /* Valentine card */
+        .valentine-card {
+            background: white;
+            border-radius: 30px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+        }
 
-    .card {
-      width: min(720px, 92vw);
-      padding: 26px 22px;
-      background: var(--card);
-      backdrop-filter: blur(10px);
-      border-radius: 22px;
-      text-align: center;
-      box-shadow: 0 18px 60px rgba(0,0,0,.15);
-    }
-#noBtn {
-  top: auto;
-}
+        .valentine-card h1 {
+            font-size: 2em;
+            color: #e74c3c;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
 
-    .art {
-      width: min(260px, 80vw);
-      margin: 0 auto 10px;
-      display: block;
-      filter: drop-shadow(0 10px 14px rgba(0,0,0,.12));
-    }
+        .valentine-card .heart-emoji {
+            font-size: 4em;
+            margin-bottom: 20px;
+            animation: heartbeat 1.5s infinite;
+        }
 
-    h1 {
-      font-size: clamp(26px, 4vw, 44px);
-      margin: 12px 0 18px;
-    }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10%, 30% { transform: scale(1.1); }
+            20%, 40% { transform: scale(1); }
+        }
 
-    .button-zone {
-      position: relative;
-      width: min(520px, 92%);
-      height: 150px;
-      margin: 0 auto;
-      touch-action: none;
-    }
+        /* Button container */
+        .button-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+            min-height: 60px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
 
-    button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      padding: 16px 24px;
-      font-size: 18px;
-      font-weight: 800;
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(0,0,0,.14);
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      transition: transform .12s ease, background .12s ease;
-    }
+        /* Buttons */
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
 
-    #yesBtn {
-      left: 18%;
-      background: var(--yes);
-      color: #fff;
-    }
-    #yesBtn:hover { background: var(--yesHover); }
+        .btn-yes {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            transform: scale(1);
+        }
 
-    #noBtn {
-      left: 62%;
-      background: #e5e7eb;
-      color: #111827;
-    }
+        .btn-yes:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+        }
 
-    .hint {
-      margin-top: 10px;
-      font-size: 13px;
-      opacity: .7;
-    }
+        .btn-no {
+            background: linear-gradient(135deg, #e0e0e0 0%, #b0b0b0 100%);
+            color: #666;
+            position: absolute;
+            /* Position will be set dynamically */
+        }
 
-    .result {
-      display: none;
-      margin-top: 18px;
-      animation: pop .35s ease;
-    }
+        .btn-no:hover {
+            background: linear-gradient(135deg, #d0d0d0 0%, #a0a0a0 100%);
+        }
 
-    .result h2 {
-      font-size: clamp(30px, 4.5vw, 46px);
-      margin: 10px 0;
-    }
+        /* Hint text below buttons */
+        .hint-text {
+            margin-top: 25px;
+            font-size: 1em;
+            color: #999;
+            min-height: 30px;
+            transition: all 0.3s ease;
+        }
 
-    .fireworks {
-      width: min(380px, 90vw);
-      margin: 0 auto;
-      display: block;
-    }
+        /* Why Yes section - playful teasing */
+        .why-yes-section {
+            margin-top: 35px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            min-height: 60px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.5s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
 
-    @keyframes pop {
-      from { transform: scale(.96); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-  </style>
+        .why-yes-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+            max-height: 500px;
+        }
+
+        .why-yes-title {
+            font-size: 1.1em;
+            color: #e74c3c;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: lowercase;
+            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .why-yes-lines {
+            text-align: center;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .why-yes-line {
+            font-size: 1.1em;
+            color: #4a4a4a;
+            margin: 12px 0;
+            padding: 10px 0;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.5s ease;
+            font-family: 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .why-yes-line.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .why-yes-line .number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #ffecd2 100%);
+            color: #fff;
+            border-radius: 50%;
+            font-size: 0.9em;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 
+                0 4px 15px rgba(255, 154, 158, 0.4),
+                0 0 0 3px rgba(255, 255, 255, 0.3),
+                inset 0 1px 3px rgba(255, 255, 255, 0.5);
+            position: relative;
+            font-family: 'Segoe UI', 'Arial Rounded MT Bold', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        /* Cute sparkle effect using pseudo-elements */
+        .why-yes-line .number::before {
+            content: '✨';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            font-size: 0.7em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .why-yes-line.revealed .number::before {
+            opacity: 0.8;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        /* Tiny heart accent */
+        .why-yes-line .number::after {
+            content: '💕';
+            position: absolute;
+            bottom: -6px;
+            left: -6px;
+            font-size: 0.5em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .why-yes-line.revealed .number::after {
+            opacity: 0.7;
+        }
+
+        /* Text content styling */
+        .why-yes-line .text {
+            flex: 1;
+            text-align: left;
+        }
+
+        /* Gentle pulse animation for revealed numbers */
+        .why-yes-line.revealed .number {
+            animation: gentlePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { 
+                transform: scale(1) rotate(0deg);
+                opacity: 0.8;
+            }
+            50% { 
+                transform: scale(1.2) rotate(180deg);
+                opacity: 0.4;
+            }
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 
+                    0 4px 15px rgba(255, 154, 158, 0.4),
+                    0 0 0 3px rgba(255, 255, 255, 0.3),
+                    inset 0 1px 3px rgba(255, 255, 255, 0.5);
+            }
+            50% { 
+                transform: scale(1.05);
+                box-shadow: 
+                    0 6px 20px rgba(255, 154, 158, 0.6),
+                    0 0 0 3px rgba(255, 255, 255, 0.5),
+                    inset 0 1px 3px rgba(255, 255, 255, 0.7);
+            }
+        }
+
+        .why-yes-line .text {
+            flex: 1;
+            text-align: left;
+            font-size: 1em;
+            font-weight: 600;
+            color: #c1738f;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Confetti canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Curtain transition */
+        .curtain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 999;
+            transform: translateY(-100%);
+            transition: transform 0.8s ease-in-out;
+        }
+
+        .curtain.closing {
+            transform: translateY(0);
+        }
+
+        /* QR Screen */
+        .qr-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .qr-screen.active {
+            display: block;
+        }
+
+        /* Coupon Screen */
+        .coupon-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .coupon-screen.active {
+            display: block;
+        }
+
+        .coupon-card {
+            background: white;
+            border-radius: 30px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .coupon-card h2 {
+            font-size: 2em;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+
+        .coupon-subtitle {
+            font-size: 1.1em;
+            color: #999;
+            margin-bottom: 35px;
+            text-transform: lowercase;
+        }
+
+        .coupons-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+            max-width: 550px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .coupon {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            padding: 20px 15px;
+            box-shadow: 0 8px 20px rgba(252, 182, 159, 0.3);
+            border: 2px dashed #ff9a9e;
+            position: relative;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            overflow: visible;
+        }
+
+        .coupon.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .coupon:hover {
+            transform: translateY(-5px) rotate(-1deg);
+            box-shadow: 0 12px 30px rgba(252, 182, 159, 0.5);
+        }
+
+        /* Corner punch holes */
+        .coupon::before,
+        .coupon::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #667eea;
+            border-radius: 50%;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .coupon::before {
+            top: -6px;
+            left: -6px;
+        }
+
+        .coupon::after {
+            top: -6px;
+            right: -6px;
+        }
+
+        /* Bottom corner holes */
+        .coupon .corner-hole-bl,
+        .coupon .corner-hole-br {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #667eea;
+            border-radius: 50%;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .coupon .corner-hole-bl {
+            bottom: -6px;
+            left: -6px;
+        }
+
+        .coupon .corner-hole-br {
+            bottom: -6px;
+            right: -6px;
+        }
+
+        /* Decorative ribbon accent */
+        .coupon .ribbon {
+            position: absolute;
+            top: 10px;
+            right: -5px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 3px 10px;
+            font-size: 0.65em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(245, 87, 108, 0.4);
+            transform: rotate(3deg);
+        }
+
+        .coupon .ribbon::before {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid #c1366b;
+            border-top: 4px solid #c1366b;
+        }
+
+        /* Sparkle decorations */
+        .coupon .sparkle {
+            position: absolute;
+            font-size: 0.8em;
+            opacity: 0.6;
+        }
+
+        .coupon .sparkle-1 {
+            top: 8px;
+            left: 8px;
+            animation: twinkle 2s ease-in-out infinite;
+        }
+
+        .coupon .sparkle-2 {
+            bottom: 8px;
+            right: 35px;
+            animation: twinkle 2s ease-in-out infinite 0.5s;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.2); }
+        }
+
+        .coupon-emoji {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .coupon-title {
+            font-size: 1em;
+            font-weight: 700;
+            color: #e74c3c;
+            margin-bottom: 8px;
+            text-transform: lowercase;
+            line-height: 1.3;
+        }
+
+        .coupon-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.7em;
+            font-weight: 600;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .continue-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .continue-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.6);
+        }
+
+        .continue-btn:active {
+            transform: scale(0.98);
+        }
+
+        .qr-card {
+            background: white;
+            border-radius: 30px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .qr-card h2 {
+            font-size: 2em;
+            color: #e74c3c;
+            margin-bottom: 30px;
+        }
+
+        .qr-code-container {
+            margin: 30px 0;
+            display: inline-block;
+            padding: 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .qr-code-container img {
+            width: 250px;
+            height: 250px;
+            display: block;
+        }
+
+        .instructions {
+            font-size: 1.3em;
+            color: #666;
+            margin: 20px 0;
+        }
+
+        .instructions div {
+            margin: 15px 0;
+        }
+
+        /* Audio Player Overlay */
+        .audio-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .audio-overlay.active {
+            display: flex;
+        }
+
+        .audio-player {
+            background: white;
+            border-radius: 30px;
+            padding: 60px 50px;
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .audio-player h2 {
+            color: #e74c3c;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .play-button {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            color: white;
+            font-size: 2.5em;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+        }
+
+        .play-button:active {
+            transform: scale(0.95);
+        }
+
+        /* Success message */
+        .success-message {
+            font-size: 3em;
+            color: white;
+            text-align: center;
+            animation: fadeInScale 0.5s ease;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Hide element utility */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 600px) {
+            .valentine-card, .qr-card, .coupon-card {
+                padding: 40px 30px;
+            }
+
+            .valentine-card h1, .qr-card h2, .coupon-card h2 {
+                font-size: 1.5em;
+            }
+
+            .btn {
+                padding: 12px 30px;
+                font-size: 1em;
+            }
+
+            .qr-code-container img {
+                width: 200px;
+                height: 200px;
+            }
+
+            .coupons-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .coupon {
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
-
 <body>
-  <canvas id="confettiCanvas"></canvas>
+    <!-- Floating hearts background -->
+    <div class="hearts-background" id="hearts-bg"></div>
 
-  <main class="card">
-    <!-- ANIMAL WITH HEART -->
-    <svg class="art" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="fur" x1="0" x2="1">
-          <stop offset="0" stop-color="#f7c7a1"/>
-          <stop offset="1" stop-color="#f2a97b"/>
-        </linearGradient>
-        <linearGradient id="heart" x1="0" x2="1">
-          <stop offset="0" stop-color="#ff4d7d"/>
-          <stop offset="1" stop-color="#ff1f68"/>
-        </linearGradient>
-      </defs>
+    <!-- Confetti canvas -->
+    <canvas id="confetti-canvas"></canvas>
 
-      <path d="M250 50 C250 33 270 25 282 38
-               C294 25 314 33 314 50
-               C314 78 282 92 282 106
-               C282 92 250 78 250 50Z"
-            fill="url(#heart)"/>
+    <!-- Curtain transition -->
+    <div class="curtain" id="curtain"></div>
 
-      <path d="M90 120 C90 70 140 40 190 60
-               C240 40 290 70 290 120
-               C290 180 240 210 190 210
-               C140 210 90 180 90 120Z"
-            fill="url(#fur)"/>
+    <!-- Main container -->
+    <div class="container" id="main-container">
+        <!-- Valentine proposal screen -->
+        <div class="valentine-card" id="valentine-screen">
+            <div class="heart-emoji">💕</div>
+            <!-- REPLACE [Name] WITH HER NAME -->
+            <h1 id="proposal-text">[Name] will you be my Valentine?</h1>
+            
+            <div class="button-container" id="button-container">
+                <button class="btn btn-yes" id="yes-btn">Yes! 💖</button>
+                <button class="btn btn-no" id="no-btn">No</button>
+            </div>
 
-      <path d="M110 92 L95 55 L140 78 Z" fill="#f2a97b"/>
-      <path d="M270 92 L285 55 L240 78 Z" fill="#f2a97b"/>
+            <div class="hint-text" id="hint-text"></div>
 
-      <circle cx="160" cy="130" r="8"/>
-      <circle cx="220" cy="130" r="8"/>
+            <!-- Playful "why yes" section - hidden initially -->
+            <div class="why-yes-section" id="why-yes-section">
+                <div class="why-yes-title" id="why-yes-title">okay but hear me out</div>
+                <div class="why-yes-lines" id="why-yes-lines">
+                    <!-- Lines will be revealed progressively with numbered bullets -->
+                    <div class="why-yes-line" data-index="0">
+                        <span class="number">1</span>
+                        <span class="text"></span>
+                    </div>
+                    <div class="why-yes-line" data-index="1">
+                        <span class="number">2</span>
+                        <span class="text"></span>
+                    </div>
+                    <div class="why-yes-line" data-index="2">
+                        <span class="number">3</span>
+                        <span class="text"></span>
+                    </div>
+                    <div class="why-yes-line" data-index="3">
+                        <span class="number">4</span>
+                        <span class="text"></span>
+                    </div>
+                    <div class="why-yes-line" data-index="4">
+                        <span class="number">5</span>
+                        <span class="text"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-      <path d="M190 144 C186 144 182 148 182 152
-               C182 160 190 164 190 170
-               C190 164 198 160 198 152
-               C198 148 194 144 190 144Z"
-            fill="#ff7aa2"/>
-    </svg>
+        <!-- Coupon rewards screen -->
+        <div class="coupon-screen" id="coupon-screen">
+            <div class="coupon-card">
+                <h2>your rewards 💝</h2>
+                <p class="coupon-subtitle">here's what you've unlocked...</p>
 
-    <h1>Niranjana will you be my valentine?</h1>
+                <div class="coupons-container" id="coupons-container">
+                    <div class="coupon" data-delay="0">
+                        <div class="corner-hole-bl"></div>
+                        <div class="corner-hole-br"></div>
+                        <div class="ribbon">YOURS</div>
+                        <div class="sparkle sparkle-1">✨</div>
+                        <div class="coupon-emoji">🤗</div>
+                        <div class="coupon-title">unlimited cuddles and kisses</div>
+                        <span class="coupon-badge">valid forever</span>
+                    </div>
 
-    <section class="button-zone" id="zone">
-      <button id="yesBtn">Yes</button>
-      <button id="noBtn">No</button>
-    </section>
+                    <div class="coupon" data-delay="200">
+                        <div class="corner-hole-bl"></div>
+                        <div class="corner-hole-br"></div>
+                        <div class="ribbon">YOURS</div>
+                        <div class="sparkle sparkle-2">💫</div>
+                        <div class="coupon-emoji">😂</div>
+                        <div class="coupon-title">unlimited laughter guaranteed</div>
+                        <span class="coupon-badge">valid forever</span>
+                    </div>
 
-    <!-- HINT -->
-    <div class="hint" id="hint">“No” seems a bit shy 😈</div>
+                    <div class="coupon" data-delay="400">
+                        <div class="corner-hole-bl"></div>
+                        <div class="corner-hole-br"></div>
+                        <div class="ribbon">YOURS</div>
+                        <div class="sparkle sparkle-1">✨</div>
+                        <div class="coupon-emoji">💆</div>
+                        <div class="coupon-title">unlimited massages</div>
+                        <span class="coupon-badge">valid forever</span>
+                    </div>
 
-    <section class="result" id="result">
-      <h2>YAY! 🎉</h2>
-      <img
-        class="fireworks"
-        src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"
-        alt="Fireworks"
-      />
-    </section>
-  </main>
+                    <div class="coupon" data-delay="600">
+                        <div class="corner-hole-bl"></div>
+                        <div class="corner-hole-br"></div>
+                        <div class="ribbon">YOURS</div>
+                        <div class="sparkle sparkle-2">💫</div>
+                        <div class="coupon-emoji">🍕</div>
+                        <div class="coupon-title">will feed you anything you crave</div>
+                        <span class="coupon-badge">valid forever</span>
+                    </div>
+                </div>
 
-  <script>
-    const noMessages = [
-  "pls 🥺",
-  "come onnn 😭",
-  "don’t break my heart 💔",
-  "okay fine… 😔"
-];
+                <button class="continue-btn" id="continue-btn">continue 💖</button>
+            </div>
+        </div>
 
-let noCount = 0;
-let noLocked = false; // IMPORTANT
-    const zone = document.getElementById("zone");
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const result = document.getElementById("result");
-    const hint = document.getElementById("hint");
+        <!-- QR code reveal screen -->
+        <div class="qr-screen" id="qr-screen">
+            <div class="qr-card">
+                <h2>One more thing... 💝</h2>
+                
+                <div class="qr-code-container">
+                    <!-- REPLACE THIS WITH YOUR QR CODE IMAGE -->
+                    <img src="qr-code.png" alt="Scan me" id="qr-image">
+                </div>
 
-    /* ---------- CONFETTI ---------- */
-    const confettiCanvas = document.getElementById("confettiCanvas");
+                <div class="instructions">
+                    <div>📱 Scan this 💖</div>
+                    <div>🎧 Wear earphones</div>
+                    <div>▶️ Then press play</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    function resizeConfettiCanvas() {
-      const dpr = Math.max(1, window.devicePixelRatio || 1);
-      confettiCanvas.width = Math.floor(window.innerWidth * dpr);
-      confettiCanvas.height = Math.floor(window.innerHeight * dpr);
-      confettiCanvas.style.width = "100vw";
-      confettiCanvas.style.height = "100vh";
-    }
+    <!-- Audio player overlay (shown when accessed via QR) -->
+    <div class="audio-overlay" id="audio-overlay">
+        <div class="audio-player">
+            <h2>For You 💝</h2>
+            <button class="play-button" id="play-audio-btn">▶</button>
+        </div>
+    </div>
 
-    resizeConfettiCanvas();
-    window.addEventListener("resize", resizeConfettiCanvas);
-    window.addEventListener("orientationchange", () => setTimeout(resizeConfettiCanvas, 150));
+    <!-- Audio elements -->
+    <!-- REPLACE 'background-music.mp3' WITH YOUR BACKGROUND MUSIC FILE -->
+    <audio id="background-music" loop>
+        <source src="background-music.mp3" type="audio/mpeg">
+    </audio>
 
-    const confettiInstance = confetti.create(confettiCanvas, {
-      resize: false,
-      useWorker: true
-    });
+    <!-- REPLACE 'final-message.mp3' WITH YOUR PERSONAL AUDIO MESSAGE -->
+    <audio id="final-message">
+        <source src="final-message.mp3" type="audio/mpeg">
+    </audio>
 
-    function fullScreenConfetti() {
-      const end = Date.now() + 1600;
+    <script>
+        // ============================================
+        // CONFIGURATION & STATE
+        // ============================================
+        
+        const state = {
+            musicStarted: false,
+            noClickCount: 0,
+            yesButtonScale: 1,
+            accepted: false
+        };
 
-      (function frame() {
-        confettiInstance({
-          particleCount: 12,
-          spread: 90,
-          startVelocity: 45,
-          ticks: 180,
-          origin: { x: Math.random(), y: Math.random() * 0.3 }
+        // Messages that appear when clicking "No"
+        const noMessages = [
+            { button: "No 😐", hint: "really though?" },
+            { button: "pls 🥺", hint: "just think about it" },
+            { button: "ice cream? 🍦", hint: "i'll buy you ice cream" },
+            { button: "two ice creams?? 😭", hint: "okay TWO ice creams" },
+            { button: "okay fine… 😔", hint: "your loss honestly" }
+        ];
+
+        // Playful "why yes" lines that reveal progressively
+        // These follow the emotional arc: playful → teasing → charming → sincere
+        const whyYesLines = [
+            "I make pretty good company if I'm being honest",
+            "Plus I always share my fries (this is rare)",
+            "I'm funny but also I genuinely think you're incredible",
+            "You make everything better just by being around",
+            "Okay real talk… I'd choose you every time"
+        ];
+
+        // ============================================
+        // ELEMENT REFERENCES
+        // ============================================
+        
+        const elements = {
+            yesBtn: document.getElementById('yes-btn'),
+            noBtn: document.getElementById('no-btn'),
+            hintText: document.getElementById('hint-text'),
+            buttonContainer: document.getElementById('button-container'),
+            valentineScreen: document.getElementById('valentine-screen'),
+            couponScreen: document.getElementById('coupon-screen'),
+            qrScreen: document.getElementById('qr-screen'),
+            mainContainer: document.getElementById('main-container'),
+            curtain: document.getElementById('curtain'),
+            confettiCanvas: document.getElementById('confetti-canvas'),
+            backgroundMusic: document.getElementById('background-music'),
+            finalMessage: document.getElementById('final-message'),
+            audioOverlay: document.getElementById('audio-overlay'),
+            playAudioBtn: document.getElementById('play-audio-btn'),
+            heartsBackground: document.getElementById('hearts-bg'),
+            whyYesSection: document.getElementById('why-yes-section'),
+            whyYesTitle: document.getElementById('why-yes-title'),
+            whyYesLines: document.getElementById('why-yes-lines'),
+            couponsContainer: document.getElementById('coupons-container'),
+            continueBtn: document.getElementById('continue-btn')
+        };
+
+        // ============================================
+        // BACKGROUND MUSIC INITIALIZATION
+        // ============================================
+        
+        // Start background music on first user interaction
+        function startBackgroundMusic() {
+            if (!state.musicStarted) {
+                elements.backgroundMusic.play().catch(err => {
+                    console.log('Audio play prevented:', err);
+                });
+                state.musicStarted = true;
+                
+                // Remove listener after first interaction
+                document.removeEventListener('click', startBackgroundMusic);
+                document.removeEventListener('touchstart', startBackgroundMusic);
+            }
+        }
+
+        // Add listeners for first interaction
+        document.addEventListener('click', startBackgroundMusic);
+        document.addEventListener('touchstart', startBackgroundMusic);
+
+        // ============================================
+        // FLOATING HEARTS BACKGROUND
+        // ============================================
+        
+        function createFloatingHearts() {
+            const hearts = ['💕', '💖', '💗', '💝', '💓', '❤️'];
+            
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDuration = (Math.random() * 5 + 8) + 's';
+                    heart.style.animationDelay = Math.random() * 5 + 's';
+                    elements.heartsBackground.appendChild(heart);
+                }, i * 500);
+            }
+        }
+
+        createFloatingHearts();
+
+        // ============================================
+        // NO BUTTON DODGE BEHAVIOR
+        // ============================================
+        
+        // Make the No button run away from cursor/touch
+        function setupNoDodge() {
+            const containerRect = elements.buttonContainer.getBoundingClientRect();
+            const dodgeDistance = 150; // Distance to start dodging
+            
+            function dodge(clientX, clientY) {
+                if (state.accepted || state.noClickCount >= noMessages.length) return;
+                
+                const noRect = elements.noBtn.getBoundingClientRect();
+                const noCenterX = noRect.left + noRect.width / 2;
+                const noCenterY = noRect.top + noRect.height / 2;
+                
+                const distance = Math.sqrt(
+                    Math.pow(clientX - noCenterX, 2) + 
+                    Math.pow(clientY - noCenterY, 2)
+                );
+                
+                if (distance < dodgeDistance) {
+                    // Calculate escape direction (away from cursor)
+                    const angle = Math.atan2(noCenterY - clientY, noCenterX - clientX);
+                    const escapeX = Math.cos(angle) * 100;
+                    const escapeY = Math.sin(angle) * 100;
+                    
+                    // Get button container boundaries
+                    const maxX = window.innerWidth - noRect.width - 20;
+                    const maxY = window.innerHeight - noRect.height - 20;
+                    
+                    // Calculate new position
+                    let newX = noRect.left + escapeX;
+                    let newY = noRect.top + escapeY;
+                    
+                    // Constrain to viewport
+                    newX = Math.max(20, Math.min(newX, maxX));
+                    newY = Math.max(20, Math.min(newY, maxY));
+                    
+                    elements.noBtn.style.position = 'fixed';
+                    elements.noBtn.style.left = newX + 'px';
+                    elements.noBtn.style.top = newY + 'px';
+                }
+            }
+            
+            // Mouse movement
+            document.addEventListener('mousemove', (e) => {
+                dodge(e.clientX, e.clientY);
+            });
+            
+            // Touch movement
+            document.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 0) {
+                    dodge(e.touches[0].clientX, e.touches[0].clientY);
+                }
+            });
+        }
+
+        setupNoDodge();
+
+        // ============================================
+        // NO BUTTON CLICK HANDLER
+        // ============================================
+        
+        elements.noBtn.addEventListener('click', function() {
+            if (state.noClickCount < noMessages.length) {
+                const message = noMessages[state.noClickCount];
+                
+                // Update button text and hint
+                elements.noBtn.textContent = message.button;
+                elements.hintText.textContent = message.hint;
+                
+                // Show the "why yes" section on first "No" click
+                if (state.noClickCount === 0) {
+                    elements.whyYesSection.classList.add('visible');
+                }
+                
+                // Reveal the corresponding "why yes" line with numbered bullet
+                const lineElement = elements.whyYesLines.querySelector(`[data-index="${state.noClickCount}"]`);
+                if (lineElement && whyYesLines[state.noClickCount]) {
+                    const textElement = lineElement.querySelector('.text');
+                    textElement.textContent = whyYesLines[state.noClickCount];
+                    setTimeout(() => {
+                        lineElement.classList.add('revealed');
+                    }, 100);
+                }
+                
+                // Increase Yes button size
+                state.yesButtonScale += 0.15;
+                elements.yesBtn.style.transform = `scale(${state.yesButtonScale})`;
+                
+                state.noClickCount++;
+                
+                // After final message, remove No button and update why-yes title
+                if (state.noClickCount >= noMessages.length) {
+                    setTimeout(() => {
+                        elements.noBtn.style.display = 'none';
+                        elements.buttonContainer.style.justifyContent = 'center';
+                        elements.yesBtn.style.transform = `scale(${state.yesButtonScale + 0.2})`;
+                        elements.hintText.textContent = '';
+                        
+                        // Update why-yes section title for final state
+                        elements.whyYesTitle.textContent = 'your move 😌';
+                    }, 1000);
+                }
+            }
         });
-        if (Date.now() < end) requestAnimationFrame(frame);
-      })();
 
-      setTimeout(() => {
-        confettiInstance({
-          particleCount: 300,
-          spread: 140,
-          startVelocity: 60,
-          ticks: 220,
-          origin: { x: 0.5, y: 0.55 }
+        // ============================================
+        // YES BUTTON CLICK HANDLER
+        // ============================================
+        
+        elements.yesBtn.addEventListener('click', function() {
+            if (state.accepted) return;
+            state.accepted = true;
+            
+            // Show success message
+            elements.valentineScreen.innerHTML = '<div class="success-message">i love you ❤️</div>';
+            
+            // Trigger confetti
+            triggerConfetti();
+            
+            // Cinematic transition to coupon screen
+            setTimeout(() => {
+                closeCurtainAndShowCoupons();
+            }, 2500);
         });
-      }, 300);
-    }
 
-    /* ---------- YES BUTTON GROWS ---------- */
-    let yesScale = 1;
-    function growYes() {
-      yesScale = Math.min(2.2, yesScale + 0.1);
-      yesBtn.style.transform = `translateY(-50%) scale(${yesScale})`;
-    }
+        // ============================================
+        // CONFETTI ANIMATION
+        // ============================================
+        
+        function triggerConfetti() {
+            const canvas = elements.confettiCanvas;
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const confetti = [];
+            const confettiCount = 150;
+            const colors = ['#ff6b6b', '#ff8787', '#ffa5a5', '#ff69b4', '#ff1493'];
+            
+            // Create confetti pieces
+            for (let i = 0; i < confettiCount; i++) {
+                confetti.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    size: Math.random() * 8 + 4,
+                    speedY: Math.random() * 3 + 2,
+                    speedX: Math.random() * 2 - 1,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rotation: Math.random() * 360,
+                    rotationSpeed: Math.random() * 5 - 2.5
+                });
+            }
+            
+            // Animate confetti
+            function animateConfetti() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                let stillFalling = false;
+                
+                confetti.forEach((piece, index) => {
+                    piece.y += piece.speedY;
+                    piece.x += piece.speedX;
+                    piece.rotation += piece.rotationSpeed;
+                    
+                    if (piece.y < canvas.height + 10) {
+                        stillFalling = true;
+                    }
+                    
+                    ctx.save();
+                    ctx.translate(piece.x, piece.y);
+                    ctx.rotate((piece.rotation * Math.PI) / 180);
+                    ctx.fillStyle = piece.color;
+                    ctx.fillRect(-piece.size / 2, -piece.size / 2, piece.size, piece.size);
+                    ctx.restore();
+                });
+                
+                if (stillFalling) {
+                    requestAnimationFrame(animateConfetti);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+            
+            animateConfetti();
+        }
 
-    /* ---------- NO BUTTON RUNS AWAY ---------- */
-    function clamp(n, min, max) {
-      return Math.max(min, Math.min(max, n));
-    }
+        // ============================================
+        // CURTAIN TRANSITION
+        // ============================================
+        
+        function closeCurtainAndShowCoupons() {
+            // Close curtain
+            elements.curtain.classList.add('closing');
+            
+            setTimeout(() => {
+                // Switch to coupon screen
+                elements.valentineScreen.classList.add('hidden');
+                elements.couponScreen.classList.add('active');
+                
+                // Open curtain
+                elements.curtain.classList.remove('closing');
+                
+                // Reveal coupons with staggered animation
+                const coupons = elements.couponsContainer.querySelectorAll('.coupon');
+                coupons.forEach((coupon, index) => {
+                    const delay = parseInt(coupon.getAttribute('data-delay'));
+                    setTimeout(() => {
+                        coupon.classList.add('revealed');
+                    }, delay);
+                });
+            }, 800);
+        }
+        
+        function closeCurtainAndShowQR() {
+            // Close curtain
+            elements.curtain.classList.add('closing');
+            
+            setTimeout(() => {
+                // Switch screens
+                elements.couponScreen.classList.add('hidden');
+                elements.qrScreen.classList.add('active');
+                
+                // Open curtain
+                elements.curtain.classList.remove('closing');
+            }, 800);
+        }
 
-    function moveNo(px, py) {
-      const z = zone.getBoundingClientRect();
-      const b = noBtn.getBoundingClientRect();
+        // ============================================
+        // CONTINUE BUTTON (Coupon -> QR)
+        // ============================================
+        
+        elements.continueBtn.addEventListener('click', function() {
+            closeCurtainAndShowQR();
+        });
 
-      let dx = (b.left + b.width / 2) - px;
-      let dy = (b.top + b.height / 2) - py;
-      let mag = Math.hypot(dx, dy) || 1;
-      dx /= mag;
-      dy /= mag;
+        // ============================================
+        // QR CODE FUNCTIONALITY
+        // ============================================
+        
+        // Check if accessed via QR code
+        const urlParams = new URLSearchParams(window.location.search);
+        const fromQR = urlParams.get('from') === 'qr';
+        
+        if (fromQR) {
+            // Show audio overlay if accessed via QR
+            elements.mainContainer.style.display = 'none';
+            elements.audioOverlay.classList.add('active');
+        }
 
-      let newLeft = (b.left - z.left) + dx * 150;
-      let newTop  = (b.top - z.top) + dy * 150;
+        // Play button for final audio message
+        elements.playAudioBtn.addEventListener('click', function() {
+            // Play the final message
+            elements.finalMessage.play().then(() => {
+                // Hide play button, show message
+                elements.audioOverlay.innerHTML = '<div class="success-message">💝</div>';
+                
+                // Trigger confetti
+                triggerConfetti();
+            }).catch(err => {
+                console.log('Audio play error:', err);
+                alert('Please make sure you have the audio file ready!');
+            });
+        });
 
-      newLeft = clamp(newLeft, 0, z.width - b.width);
-      newTop  = clamp(newTop, 0, z.height - b.height);
-
-      noBtn.style.left = newLeft + "px";
-      noBtn.style.top = newTop + "px";
-      noBtn.style.transform = "none";
-
-      growYes();
-    }
-
-zone.addEventListener("pointermove", e => {
-  if (noLocked) return; // STOP RUNNING AFTER CLICKS START
-
-  const b = noBtn.getBoundingClientRect();
-  const d = Math.hypot(
-    (b.left + b.width / 2) - e.clientX,
-    (b.top + b.height / 2) - e.clientY
-  );
-
-  if (d < 140) moveNo(e.clientX, e.clientY);
-});
-
-
-   noBtn.addEventListener("click", e => {
-  e.preventDefault();
-  e.stopPropagation();
-
-  noLocked = true; // freeze movement
-
-  if (noCount < noMessages.length) {
-    noBtn.innerText = noMessages[noCount];
-    growYes();
-    noCount++;
-  } else {
-    noBtn.style.display = "none";
-    hint.innerText = "Only one choice left 😌❤️";
-  }
-});
-
-
-    /* ---------- YES CLICK ---------- */
-    yesBtn.addEventListener("click", () => {
-      zone.style.display = "none";
-      hint.style.display = "none";     // HIDE THE HINT
-      result.style.display = "block";
-      resizeConfettiCanvas();
-      fullScreenConfetti();
-    });
-  </script>
+        // ============================================
+        // HANDLE WINDOW RESIZE
+        // ============================================
+        
+        window.addEventListener('resize', () => {
+            elements.confettiCanvas.width = window.innerWidth;
+            elements.confettiCanvas.height = window.innerHeight;
+        });
+    </script>
 </body>
 </html>
-
-
-
-
-
