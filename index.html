@@ -537,12 +537,19 @@
             height: 250px;
             display: block;
         }
-
+        
         .instructions {
             font-size: 1.3em;
             color: #666;
             margin: 20px 0;
         }
+    .final-screen {
+    display: none;
+    text-align: center;
+    }
+    .final-screen.active {
+        display: block;
+    }
 
         .instructions div {
             margin: 15px 0;
@@ -564,7 +571,7 @@
         .audio-overlay.active {
             display: flex;
         }
-
+    
         .audio-player {
             background: white;
             border-radius: 30px;
@@ -763,22 +770,16 @@
             </div>
         </div>
 
-        <div class="qr-screen" id="qr-screen">
-            <div class="qr-card">
-                <h2>One more thing... 💝</h2>
-                
-                <div class="qr-code-container">
-                    <img src="qr-code.png" alt="Scan me" id="qr-image">
-                </div>
+    <div class="final-screen" id="final-screen">
+    <div class="qr-card">
+        <h2>wait… one last thing 💗</h2>
+        <p class="coupon-subtitle">please wear earphones</p>
 
-                <div class="instructions">
-                    <div>📱 Scan this 💖</div>
-                    <div>🎧 Wear earphones</div>
-                    <div>▶️ Then press play</div>
-                </div>
-            </div>
-        </div>
+        <button class="play-button" id="final-play-btn">▶</button>
+
+        <p class="coupon-subtitle">i made this for you</p>
     </div>
+</div>
 
     <div class="audio-overlay" id="audio-overlay">
         <div class="audio-player">
@@ -855,6 +856,10 @@
                     .then(() => {
                         console.log('✅ Background music started successfully!');
                         state.musicStarted = true;
+                    
+                        // prevent future clicks from restarting music
+                        document.removeEventListener('click', startBackgroundMusic);
+                        document.removeEventListener('touchstart', startBackgroundMusic);
                     })
                     .catch(err => {
                         console.error('❌ Background music failed to play:', err);
@@ -1079,27 +1084,20 @@
             }, 800);
         }
         
-        function closeCurtainAndShowQR() {
-            elements.curtain.classList.add('closing');
-            
-            setTimeout(() => {
-                elements.couponScreen.classList.add('hidden');
-                elements.qrScreen.classList.add('active');
-                elements.curtain.classList.remove('closing');
-            }, 800);
-        }
+ 
 
         elements.continueBtn.addEventListener('click', function() {
-            closeCurtainAndShowQR();
-        });
+    elements.curtain.classList.add('closing');
+
+    setTimeout(() => {
+        elements.couponScreen.classList.add('hidden');
+        document.getElementById('final-screen').classList.add('active');
+        elements.curtain.classList.remove('closing');
+    }, 800);
+});
 
         const urlParams = new URLSearchParams(window.location.search);
-        const fromQR = urlParams.get('from') === 'qr';
-        
-        if (fromQR) {
-            elements.mainContainer.style.display = 'none';
-            elements.audioOverlay.classList.add('active');
-        }
+     
 
         elements.playAudioBtn.addEventListener('click', function() {
             elements.finalMessage.play().then(() => {
@@ -1110,6 +1108,28 @@
                 alert('Please make sure you have the audio file ready!');
             });
         });
+const finalPlayBtn = document.getElementById('final-play-btn');
+
+finalPlayBtn.addEventListener('click', async () => {
+    try {
+
+        // HARD stop background music
+        elements.backgroundMusic.pause();
+        elements.backgroundMusic.currentTime = 0;
+        elements.backgroundMusic.src = "";
+        elements.backgroundMusic.load();
+
+        // play your recording
+        elements.finalMessage.currentTime = 0;
+        await elements.finalMessage.play();
+
+        finalPlayBtn.innerText = "💝";
+        triggerConfetti();
+
+    } catch (err) {
+        alert("tap once more ❤️");
+    }
+});
 
         window.addEventListener('resize', () => {
             elements.confettiCanvas.width = window.innerWidth;
@@ -1118,4 +1138,5 @@
     </script>
 </body>
 </html>
+
 
