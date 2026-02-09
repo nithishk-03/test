@@ -134,7 +134,6 @@
             background: linear-gradient(135deg, #e0e0e0 0%, #b0b0b0 100%);
             color: #666;
             position: absolute;
-            /* Position will be set dynamically */
         }
 
         .btn-no:hover {
@@ -167,7 +166,7 @@
         .why-yes-section.visible {
             opacity: 1;
             transform: translateY(0);
-            max-height: 500px;
+            max-height: 800px;
         }
 
         .why-yes-title {
@@ -187,8 +186,8 @@
         }
 
         .why-yes-line {
-            font-size: 1.1em;
-            color: #4a4a4a;
+            font-size: 1em;
+            color: #c1738f;
             margin: 12px 0;
             padding: 10px 0;
             opacity: 0;
@@ -229,7 +228,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Cute sparkle effect using pseudo-elements */
         .why-yes-line .number::before {
             content: '✨';
             position: absolute;
@@ -245,7 +243,6 @@
             animation: sparkle 2s ease-in-out infinite;
         }
 
-        /* Tiny heart accent */
         .why-yes-line .number::after {
             content: '💕';
             position: absolute;
@@ -260,13 +257,11 @@
             opacity: 0.7;
         }
 
-        /* Text content styling */
         .why-yes-line .text {
             flex: 1;
             text-align: left;
         }
 
-        /* Gentle pulse animation for revealed numbers */
         .why-yes-line.revealed .number {
             animation: gentlePulse 3s ease-in-out infinite;
         }
@@ -299,17 +294,6 @@
             }
         }
 
-        .why-yes-line .text {
-            flex: 1;
-            text-align: left;
-            font-size: 1em;
-            font-weight: 600;
-            color: #c1738f;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-        }
-
-        /* Confetti canvas */
         #confetti-canvas {
             position: fixed;
             top: 0;
@@ -320,7 +304,6 @@
             z-index: 1000;
         }
 
-        /* Curtain transition */
         .curtain {
             position: fixed;
             top: 0;
@@ -337,34 +320,23 @@
             transform: translateY(0);
         }
 
-        /* QR Screen */
-        .qr-screen {
+        .qr-screen, .coupon-screen {
             display: none;
             text-align: center;
         }
 
-        .qr-screen.active {
+        .qr-screen.active, .coupon-screen.active {
             display: block;
         }
 
-        /* Coupon Screen */
-        .coupon-screen {
-            display: none;
-            text-align: center;
-        }
-
-        .coupon-screen.active {
-            display: block;
-        }
-
-        .coupon-card {
+        .coupon-card, .qr-card {
             background: white;
             border-radius: 30px;
             padding: 50px 40px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
-        .coupon-card h2 {
+        .coupon-card h2, .qr-card h2 {
             font-size: 2em;
             color: #e74c3c;
             margin-bottom: 15px;
@@ -410,7 +382,6 @@
             box-shadow: 0 12px 30px rgba(252, 182, 159, 0.5);
         }
 
-        /* Corner punch holes */
         .coupon::before,
         .coupon::after {
             content: '';
@@ -432,7 +403,6 @@
             right: -6px;
         }
 
-        /* Bottom corner holes */
         .coupon .corner-hole-bl,
         .coupon .corner-hole-br {
             position: absolute;
@@ -453,7 +423,6 @@
             right: -6px;
         }
 
-        /* Decorative ribbon accent */
         .coupon .ribbon {
             position: absolute;
             top: 10px;
@@ -481,7 +450,6 @@
             border-top: 4px solid #c1366b;
         }
 
-        /* Sparkle decorations */
         .coupon .sparkle {
             position: absolute;
             font-size: 0.8em;
@@ -555,19 +523,6 @@
             transform: scale(0.98);
         }
 
-        .qr-card {
-            background: white;
-            border-radius: 30px;
-            padding: 50px 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .qr-card h2 {
-            font-size: 2em;
-            color: #e74c3c;
-            margin-bottom: 30px;
-        }
-
         .qr-code-container {
             margin: 30px 0;
             display: inline-block;
@@ -593,7 +548,6 @@
             margin: 15px 0;
         }
 
-        /* Audio Player Overlay */
         .audio-overlay {
             position: fixed;
             top: 0;
@@ -650,7 +604,6 @@
             transform: scale(0.95);
         }
 
-        /* Success message */
         .success-message {
             font-size: 3em;
             color: white;
@@ -669,12 +622,10 @@
             }
         }
 
-        /* Hide element utility */
         .hidden {
             display: none !important;
         }
 
-        /* Mobile responsiveness */
         @media (max-width: 600px) {
             .valentine-card, .qr-card, .coupon-card {
                 padding: 40px 30px;
@@ -706,21 +657,13 @@
     </style>
 </head>
 <body>
-    <!-- Floating hearts background -->
     <div class="hearts-background" id="hearts-bg"></div>
-
-    <!-- Confetti canvas -->
     <canvas id="confetti-canvas"></canvas>
-
-    <!-- Curtain transition -->
     <div class="curtain" id="curtain"></div>
 
-    <!-- Main container -->
     <div class="container" id="main-container">
-        <!-- Valentine proposal screen -->
         <div class="valentine-card" id="valentine-screen">
             <div class="heart-emoji">💕</div>
-            <!-- REPLACE [Name] WITH HER NAME -->
             <h1 id="proposal-text">[Name] will you be my Valentine?</h1>
             
             <div class="button-container" id="button-container">
@@ -730,11 +673,9 @@
 
             <div class="hint-text" id="hint-text"></div>
 
-            <!-- Playful "why yes" section - hidden initially -->
             <div class="why-yes-section" id="why-yes-section">
                 <div class="why-yes-title" id="why-yes-title">okay but hear me out</div>
                 <div class="why-yes-lines" id="why-yes-lines">
-                    <!-- Lines will be revealed progressively with numbered bullets -->
                     <div class="why-yes-line" data-index="0">
                         <span class="number">1</span>
                         <span class="text"></span>
@@ -755,11 +696,18 @@
                         <span class="number">5</span>
                         <span class="text"></span>
                     </div>
+                    <div class="why-yes-line" data-index="5">
+                        <span class="number">6</span>
+                        <span class="text"></span>
+                    </div>
+                    <div class="why-yes-line" data-index="6">
+                        <span class="number">7</span>
+                        <span class="text"></span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Coupon rewards screen -->
         <div class="coupon-screen" id="coupon-screen">
             <div class="coupon-card">
                 <h2>your rewards 💝</h2>
@@ -811,13 +759,11 @@
             </div>
         </div>
 
-        <!-- QR code reveal screen -->
         <div class="qr-screen" id="qr-screen">
             <div class="qr-card">
                 <h2>One more thing... 💝</h2>
                 
                 <div class="qr-code-container">
-                    <!-- REPLACE THIS WITH YOUR QR CODE IMAGE -->
                     <img src="qr-code.png" alt="Scan me" id="qr-image">
                 </div>
 
@@ -830,7 +776,6 @@
         </div>
     </div>
 
-    <!-- Audio player overlay (shown when accessed via QR) -->
     <div class="audio-overlay" id="audio-overlay">
         <div class="audio-player">
             <h2>For You 💝</h2>
@@ -838,22 +783,15 @@
         </div>
     </div>
 
-    <!-- Audio elements -->
-    <!-- REPLACE 'background-music.mp3' WITH YOUR BACKGROUND MUSIC FILE -->
     <audio id="background-music" loop>
         <source src="the-metro-proposal-320k_9szize74.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- REPLACE 'final-message.mp3' WITH YOUR PERSONAL AUDIO MESSAGE -->
     <audio id="final-message">
         <source src="final-message.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        // ============================================
-        // CONFIGURATION & STATE
-        // ============================================
-        
         const state = {
             musicStarted: false,
             noClickCount: 0,
@@ -861,35 +799,27 @@
             accepted: false
         };
 
-        // Messages that appear when clicking "No"
+        // FIXED: Removed extra brace and added proper commas
         const noMessages = [
             { button: "No 😐", hint: "really though?" },
             { button: "pls 🥺", hint: "just think about it" },
             { button: "Biriyani? 🍦", hint: "I'll buy you Biriyani" },
             { button: "Bachelor Chicken?? 😭", hint: "okay Chapati chicken" },
-            { button: "I'll buy you Juicee?? 😭", hint: "Juicee" }}
+            { button: "I'll buy you Juicee?? 😭", hint: "Juicee" },
             { button: "okay fine… 😔", hint: "your loss honestly" }
         ];
 
-        // Playful "why yes" lines that reveal progressively
-        // These follow the emotional arc: playful → teasing → charming → sincere
-        const whyYesLines = [ "I’ll handle mood swings and silliness like a pro patiently",
-                             "I’ll make you laugh daily (guaranteed)",
-                             "I’ll keep you fed — chocolate, snacks, and pizza(Big Chief w extra Jalapeños)"
-                             "I’ll join you for fun adventures, random conversations, and spontaneous plans no questions asked"
-                              "I will NOT be a crybaby (i will try my best)", "and yes… strictly no talking to other girls & zero accidents allowed — understood"
-,"I think I qualify… so do i get the job? 😌"
-     
-
-                                
-                             
-
+        // FIXED: Added missing commas between array items
+        const whyYesLines = [
+            "I'll handle mood swings and silliness like a pro patiently",
+            "I'll make you laugh daily (guaranteed)",
+            "I'll keep you fed — chocolate, snacks, and pizza (Big Chief w extra Jalapeños)",
+            "I'll join you for fun adventures, random conversations, and spontaneous plans no questions asked",
+            "I will NOT be a crybaby (i will try my best)",
+            "and yes… strictly no talking to other girls & zero accidents allowed — understood",
+            "I think I qualify… so do i get the job? 😌"
         ];
 
-        // ============================================
-        // ELEMENT REFERENCES
-        // ============================================
-        
         const elements = {
             yesBtn: document.getElementById('yes-btn'),
             noBtn: document.getElementById('no-btn'),
@@ -913,32 +843,50 @@
             continueBtn: document.getElementById('continue-btn')
         };
 
-        // ============================================
-        // BACKGROUND MUSIC INITIALIZATION
-        // ============================================
-        
-        // Start background music on first user interaction
         function startBackgroundMusic() {
             if (!state.musicStarted) {
-                elements.backgroundMusic.play().catch(err => {
-                    console.log('Audio play prevented:', err);
-                });
-                state.musicStarted = true;
+                console.log('Attempting to play background music...');
                 
-                // Remove listener after first interaction
+                elements.backgroundMusic.play()
+                    .then(() => {
+                        console.log('✅ Background music started successfully!');
+                        state.musicStarted = true;
+                    })
+                    .catch(err => {
+                        console.error('❌ Background music failed to play:', err);
+                        console.log('Audio source:', elements.backgroundMusic.src);
+                        console.log('Audio ready state:', elements.backgroundMusic.readyState);
+                        
+                        elements.backgroundMusic.load();
+                        setTimeout(() => {
+                            elements.backgroundMusic.play()
+                                .then(() => {
+                                    console.log('✅ Background music started on retry!');
+                                    state.musicStarted = true;
+                                })
+                                .catch(retryErr => {
+                                    console.error('❌ Background music still failed:', retryErr);
+                                    alert('Audio file not found or invalid. Please check:\n1. File is named exactly "the-metro-proposal-320k_9szize74.mp3"\n2. File is in the same folder as valentine.html\n3. File is a valid MP3 file');
+                                });
+                        }, 500);
+                    });
+                
                 document.removeEventListener('click', startBackgroundMusic);
                 document.removeEventListener('touchstart', startBackgroundMusic);
             }
         }
 
-        // Add listeners for first interaction
         document.addEventListener('click', startBackgroundMusic);
         document.addEventListener('touchstart', startBackgroundMusic);
 
-        // ============================================
-        // FLOATING HEARTS BACKGROUND
-        // ============================================
-        
+        window.addEventListener('load', () => {
+            console.log('🎵 Audio Setup Check:');
+            console.log('Background music element:', elements.backgroundMusic);
+            console.log('Background music source:', elements.backgroundMusic.querySelector('source').src);
+            console.log('Final message element:', elements.finalMessage);
+            console.log('Final message source:', elements.finalMessage.querySelector('source').src);
+        });
+
         function createFloatingHearts() {
             const hearts = ['💕', '💖', '💗', '💝', '💓', '❤️'];
             
@@ -957,14 +905,8 @@
 
         createFloatingHearts();
 
-        // ============================================
-        // NO BUTTON DODGE BEHAVIOR
-        // ============================================
-        
-        // Make the No button run away from cursor/touch
         function setupNoDodge() {
-            const containerRect = elements.buttonContainer.getBoundingClientRect();
-            const dodgeDistance = 150; // Distance to start dodging
+            const dodgeDistance = 150;
             
             function dodge(clientX, clientY) {
                 if (state.accepted || state.noClickCount >= noMessages.length) return;
@@ -979,20 +921,16 @@
                 );
                 
                 if (distance < dodgeDistance) {
-                    // Calculate escape direction (away from cursor)
                     const angle = Math.atan2(noCenterY - clientY, noCenterX - clientX);
                     const escapeX = Math.cos(angle) * 100;
                     const escapeY = Math.sin(angle) * 100;
                     
-                    // Get button container boundaries
                     const maxX = window.innerWidth - noRect.width - 20;
                     const maxY = window.innerHeight - noRect.height - 20;
                     
-                    // Calculate new position
                     let newX = noRect.left + escapeX;
                     let newY = noRect.top + escapeY;
                     
-                    // Constrain to viewport
                     newX = Math.max(20, Math.min(newX, maxX));
                     newY = Math.max(20, Math.min(newY, maxY));
                     
@@ -1002,12 +940,10 @@
                 }
             }
             
-            // Mouse movement
             document.addEventListener('mousemove', (e) => {
                 dodge(e.clientX, e.clientY);
             });
             
-            // Touch movement
             document.addEventListener('touchmove', (e) => {
                 if (e.touches.length > 0) {
                     dodge(e.touches[0].clientX, e.touches[0].clientY);
@@ -1017,24 +953,17 @@
 
         setupNoDodge();
 
-        // ============================================
-        // NO BUTTON CLICK HANDLER
-        // ============================================
-        
         elements.noBtn.addEventListener('click', function() {
             if (state.noClickCount < noMessages.length) {
                 const message = noMessages[state.noClickCount];
                 
-                // Update button text and hint
                 elements.noBtn.textContent = message.button;
                 elements.hintText.textContent = message.hint;
                 
-                // Show the "why yes" section on first "No" click
                 if (state.noClickCount === 0) {
                     elements.whyYesSection.classList.add('visible');
                 }
                 
-                // Reveal the corresponding "why yes" line with numbered bullet
                 const lineElement = elements.whyYesLines.querySelector(`[data-index="${state.noClickCount}"]`);
                 if (lineElement && whyYesLines[state.noClickCount]) {
                     const textElement = lineElement.querySelector('.text');
@@ -1044,51 +973,35 @@
                     }, 100);
                 }
                 
-                // Increase Yes button size
                 state.yesButtonScale += 0.15;
                 elements.yesBtn.style.transform = `scale(${state.yesButtonScale})`;
                 
                 state.noClickCount++;
                 
-                // After final message, remove No button and update why-yes title
                 if (state.noClickCount >= noMessages.length) {
                     setTimeout(() => {
                         elements.noBtn.style.display = 'none';
                         elements.buttonContainer.style.justifyContent = 'center';
                         elements.yesBtn.style.transform = `scale(${state.yesButtonScale + 0.2})`;
                         elements.hintText.textContent = '';
-                        
-                        // Update why-yes section title for final state
                         elements.whyYesTitle.textContent = 'your move 😌';
                     }, 1000);
                 }
             }
         });
 
-        // ============================================
-        // YES BUTTON CLICK HANDLER
-        // ============================================
-        
         elements.yesBtn.addEventListener('click', function() {
             if (state.accepted) return;
             state.accepted = true;
             
-            // Show success message
             elements.valentineScreen.innerHTML = '<div class="success-message">i love you ❤️</div>';
-            
-            // Trigger confetti
             triggerConfetti();
             
-            // Cinematic transition to coupon screen
             setTimeout(() => {
                 closeCurtainAndShowCoupons();
             }, 2500);
         });
 
-        // ============================================
-        // CONFETTI ANIMATION
-        // ============================================
-        
         function triggerConfetti() {
             const canvas = elements.confettiCanvas;
             const ctx = canvas.getContext('2d');
@@ -1099,7 +1012,6 @@
             const confettiCount = 150;
             const colors = ['#ff6b6b', '#ff8787', '#ffa5a5', '#ff69b4', '#ff1493'];
             
-            // Create confetti pieces
             for (let i = 0; i < confettiCount; i++) {
                 confetti.push({
                     x: Math.random() * canvas.width,
@@ -1113,13 +1025,12 @@
                 });
             }
             
-            // Animate confetti
             function animateConfetti() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 
                 let stillFalling = false;
                 
-                confetti.forEach((piece, index) => {
+                confetti.forEach((piece) => {
                     piece.y += piece.speedY;
                     piece.x += piece.speedX;
                     piece.rotation += piece.rotationSpeed;
@@ -1146,25 +1057,16 @@
             animateConfetti();
         }
 
-        // ============================================
-        // CURTAIN TRANSITION
-        // ============================================
-        
         function closeCurtainAndShowCoupons() {
-            // Close curtain
             elements.curtain.classList.add('closing');
             
             setTimeout(() => {
-                // Switch to coupon screen
                 elements.valentineScreen.classList.add('hidden');
                 elements.couponScreen.classList.add('active');
-                
-                // Open curtain
                 elements.curtain.classList.remove('closing');
                 
-                // Reveal coupons with staggered animation
                 const coupons = elements.couponsContainer.querySelectorAll('.coupon');
-                coupons.forEach((coupon, index) => {
+                coupons.forEach((coupon) => {
                     const delay = parseInt(coupon.getAttribute('data-delay'));
                     setTimeout(() => {
                         coupon.classList.add('revealed');
@@ -1174,49 +1076,30 @@
         }
         
         function closeCurtainAndShowQR() {
-            // Close curtain
             elements.curtain.classList.add('closing');
             
             setTimeout(() => {
-                // Switch screens
                 elements.couponScreen.classList.add('hidden');
                 elements.qrScreen.classList.add('active');
-                
-                // Open curtain
                 elements.curtain.classList.remove('closing');
             }, 800);
         }
 
-        // ============================================
-        // CONTINUE BUTTON (Coupon -> QR)
-        // ============================================
-        
         elements.continueBtn.addEventListener('click', function() {
             closeCurtainAndShowQR();
         });
 
-        // ============================================
-        // QR CODE FUNCTIONALITY
-        // ============================================
-        
-        // Check if accessed via QR code
         const urlParams = new URLSearchParams(window.location.search);
         const fromQR = urlParams.get('from') === 'qr';
         
         if (fromQR) {
-            // Show audio overlay if accessed via QR
             elements.mainContainer.style.display = 'none';
             elements.audioOverlay.classList.add('active');
         }
 
-        // Play button for final audio message
         elements.playAudioBtn.addEventListener('click', function() {
-            // Play the final message
             elements.finalMessage.play().then(() => {
-                // Hide play button, show message
                 elements.audioOverlay.innerHTML = '<div class="success-message">💝</div>';
-                
-                // Trigger confetti
                 triggerConfetti();
             }).catch(err => {
                 console.log('Audio play error:', err);
@@ -1224,10 +1107,6 @@
             });
         });
 
-        // ============================================
-        // HANDLE WINDOW RESIZE
-        // ============================================
-        
         window.addEventListener('resize', () => {
             elements.confettiCanvas.width = window.innerWidth;
             elements.confettiCanvas.height = window.innerHeight;
@@ -1235,8 +1114,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
