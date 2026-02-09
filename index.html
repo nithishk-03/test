@@ -604,12 +604,16 @@
             transform: scale(0.95);
         }
 
-        .success-message {
-            font-size: 3em;
-            color: white;
-            text-align: center;
-            animation: fadeInScale 0.5s ease;
-        }
+     .success-message {
+    font-size: 2.6em;
+    font-weight: 800;
+    text-align: center;
+    background: linear-gradient(135deg, #ff4d6d, #ff8fab, #ffb3c6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeInScale 0.6s ease;
+}
+
 
         @keyframes fadeInScale {
             from {
@@ -994,7 +998,7 @@
             if (state.accepted) return;
             state.accepted = true;
             
-            elements.valentineScreen.innerHTML = '<div class="success-message">i love you ❤️</div>';
+            elements.valentineScreen.innerHTML = '<div class="success-message"> Chello  Kutiiiiii❤️</div>';
             triggerConfetti();
             
             setTimeout(() => {
@@ -1114,3 +1118,4 @@
     </script>
 </body>
 </html>
+
