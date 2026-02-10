@@ -150,13 +150,21 @@
         }
 
         /* Hint text below buttons */
-        .hint-text {
-            margin-top: 25px;
-            font-size: 1em;
-            color: #999;
-            min-height: 30px;
-            transition: all 0.3s ease;
-        }
+            .hint-text {
+                margin-top: 12px;
+                font-size: 1.15em;
+                color: #ff7aa2;
+                font-family: 'Trebuchet MS', 'Segoe UI', cursive;
+                font-weight: 600;
+                letter-spacing: 0.4px;
+                min-height: 28px;
+                transition: all 0.3s ease;
+                text-align: center;
+            }
+            .hint-text::after {
+        content: " 💭";
+        opacity: 0.7;
+    }
 
         /* Why Yes section - playful teasing */
         .why-yes-section {
@@ -1174,6 +1182,7 @@ finalPlayBtn.addEventListener('click', async () => {
     </script>
 </body>
 </html>
+
 
 
 
