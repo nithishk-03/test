@@ -610,6 +610,8 @@
             justify-content: center;
             align-items: center;
             margin: 0 auto;
+            animation: pulsePlay 2s infinite;
+
         }
 
         .play-button:hover {
@@ -630,6 +632,24 @@
     animation: fadeInScale 0.6s ease;
 }
 
+.final-screen .coupon-subtitle {
+    font-family: 'Segoe UI', 'Trebuchet MS', cursive;
+    font-size: 1.25em;
+    color: #ff7aa2;
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+    margin-bottom: 18px;
+    text-transform: none;
+    font-weight: 500;
+    opacity: 0.95;
+}
+
+.final-screen h2 {
+    font-size: 2.2em;
+    color: #e74c3c;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
 
         @keyframes fadeInScale {
             from {
@@ -641,6 +661,12 @@
                 transform: scale(1);
             }
         }
+        @keyframes pulsePlay {
+    0% { box-shadow: 0 0 0 0 rgba(245, 87, 108, 0.6); }
+    70% { box-shadow: 0 0 0 18px rgba(245, 87, 108, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(245, 87, 108, 0); }
+}
+
 
         .hidden {
             display: none !important;
@@ -1132,6 +1158,7 @@ finalPlayBtn.addEventListener('click', async () => {
     </script>
 </body>
 </html>
+
 
 
 
