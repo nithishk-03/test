@@ -18,7 +18,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             position: relative;
         }
 
@@ -64,6 +65,7 @@
             width: 90%;
             max-width: 500px;
             transition: opacity 0.5s ease;
+            padding: 20px 0;
         }
 
         /* Valentine card */
@@ -74,7 +76,14 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             text-align: center;
             position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
+            scrollbar-width: none;
         }
+        .valentine-card::-webkit-scrollbar {
+        display: none;
+            }
+
 
         .valentine-card h1 {
             font-size: 2em;
@@ -151,8 +160,8 @@
 
         /* Why Yes section - playful teasing */
         .why-yes-section {
-            margin-top: 35px;
-            padding: 25px;
+            margin-top: 18px;
+            padding: 16px 18px;
             background: rgba(255, 255, 255, 0.6);
             border-radius: 20px;
             min-height: 60px;
@@ -188,8 +197,8 @@
         .why-yes-line {
             font-size: 1em;
             color: #c1738f;
-            margin: 12px 0;
-            padding: 10px 0;
+            margin: 6px 0;
+            padding: 4px 0;
             opacity: 0;
             transform: translateY(-10px);
             transition: all 0.5s ease;
@@ -1123,5 +1132,6 @@ finalPlayBtn.addEventListener('click', async () => {
     </script>
 </body>
 </html>
+
 
 
