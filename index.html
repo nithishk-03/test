@@ -1,142 +1,247 @@
-height: 250px;
-display: block;
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine 💕</title>
+
+<style>
+body{
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
 }
 
-        
-.instructions {
-font-size: 1.3em;
-color: #666;
-margin: 20px 0;
-}
-    .final-screen {
-    display: none;
-    text-align: center;
-    }
-    .final-screen.active {
-        display: block;
-    }
-
-.instructions div {
-margin: 15px 0;
-@@ -564,7 +571,7 @@
-.audio-overlay.active {
-display: flex;
+/* CARD */
+.card{
+    background:white;
+    padding:40px;
+    border-radius:25px;
+    text-align:center;
+    max-width:480px;
+    width:90%;
+    box-shadow:0 20px 60px rgba(0,0,0,.3);
 }
 
-    
-.audio-player {
-background: white;
-border-radius: 30px;
-@@ -763,22 +770,16 @@ <h2>your rewards 💝</h2>
-</div>
-</div>
-
-        <div class="qr-screen" id="qr-screen">
-            <div class="qr-card">
-                <h2>One more thing... 💝</h2>
-                
-                <div class="qr-code-container">
-                    <img src="qr-code.png" alt="Scan me" id="qr-image">
-                </div>
-    <div class="final-screen" id="final-screen">
-    <div class="qr-card">
-        <h2>wait… one last thing 💗</h2>
-        <p class="coupon-subtitle">please wear earphones</p>
-
-                <div class="instructions">
-                    <div>📱 Scan this 💖</div>
-                    <div>🎧 Wear earphones</div>
-                    <div>▶️ Then press play</div>
-                </div>
-            </div>
-        </div>
-        <button class="play-button" id="final-play-btn">▶</button>
-
-        <p class="coupon-subtitle">i made this for you</p>
-</div>
-</div>
-
-<div class="audio-overlay" id="audio-overlay">
-<div class="audio-player">
-@@ -855,6 +856,10 @@ <h2>For You 💝</h2>
-.then(() => {
-console.log('✅ Background music started successfully!');
-state.musicStarted = true;
-                    
-                        // prevent future clicks from restarting music
-                        document.removeEventListener('click', startBackgroundMusic);
-                        document.removeEventListener('touchstart', startBackgroundMusic);
-})
-.catch(err => {
-console.error('❌ Background music failed to play:', err);
-@@ -1079,27 +1084,20 @@ <h2>For You 💝</h2>
-}, 800);
+h1{
+    color:#e74c3c;
+    line-height:1.4;
 }
 
-        function closeCurtainAndShowQR() {
-            elements.curtain.classList.add('closing');
-            
-            setTimeout(() => {
-                elements.couponScreen.classList.add('hidden');
-                elements.qrScreen.classList.add('active');
-                elements.curtain.classList.remove('closing');
-            }, 800);
-        }
- 
+/* BUTTONS */
+.buttons{
+    margin-top:25px;
+    position:relative;
+}
 
-elements.continueBtn.addEventListener('click', function() {
-            closeCurtainAndShowQR();
-        });
-    elements.curtain.classList.add('closing');
+button{
+    padding:14px 35px;
+    border:none;
+    border-radius:40px;
+    font-size:18px;
+    cursor:pointer;
+    margin:10px;
+    transition:.25s;
+}
 
-    setTimeout(() => {
-        elements.couponScreen.classList.add('hidden');
-        document.getElementById('final-screen').classList.add('active');
-        elements.curtain.classList.remove('closing');
-    }, 800);
+#yes{
+    background:linear-gradient(135deg,#ff758c,#ff7eb3);
+    color:white;
+    font-weight:600;
+}
+
+#no{
+    background:#ddd;
+    position:absolute;
+}
+
+/* HINT */
+#hint{
+    margin-top:18px;
+    color:#888;
+    min-height:24px;
+}
+
+/* WHY SECTION */
+#why{
+    margin-top:25px;
+    display:none;
+    text-align:left;
+}
+
+.point{
+    margin:10px 0;
+    padding:10px 14px;
+    background:#fff0f4;
+    border-radius:12px;
+    color:#c04b6e;
+    animation:fade .4s ease;
+}
+
+@keyframes fade{
+from{opacity:0; transform:translateY(10px)}
+to{opacity:1; transform:translateY(0)}
+}
+
+/* SUCCESS PAGE */
+#success{
+    display:none;
+    text-align:center;
+}
+
+.successText{
+    font-size:34px;
+    font-weight:800;
+    background:linear-gradient(135deg,#ff4d6d,#ff8fab,#ffc2d1);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    margin-bottom:25px;
+}
+
+/* PLAY BUTTON */
+.play{
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    border:none;
+    font-size:40px;
+    background:linear-gradient(135deg,#ff758c,#ff7eb3);
+    color:white;
+    cursor:pointer;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+    transition:.25s;
+}
+.play:hover{transform:scale(1.1)}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="main">
+
+<h1 id="title">Niranjana will you be my Valentine? 💗</h1>
+
+<div class="buttons">
+<button id="yes">Yes 💖</button>
+<button id="no">No</button>
+</div>
+
+<div id="hint"></div>
+<div id="why"></div>
+
+</div>
+
+<div class="card" id="success">
+<div class="successText">okay you’re stuck with me now ❤️</div>
+<p>one last thing… wear earphones 🎧</p>
+<br>
+<button class="play" id="play">▶</button>
+</div>
+
+<audio id="bg" loop src="the-metro-proposal-320k_9szize74.mp3"></audio>
+<audio id="voice" src="final-message.mp3"></audio>
+
+<script>
+
+const yes = document.getElementById("yes");
+const no = document.getElementById("no");
+const hint = document.getElementById("hint");
+const why = document.getElementById("why");
+const main = document.getElementById("main");
+const success = document.getElementById("success");
+const play = document.getElementById("play");
+const bg = document.getElementById("bg");
+const voice = document.getElementById("voice");
+
+let started=false;
+document.addEventListener("click",()=>{
+ if(!started){
+   bg.play().catch(()=>{});
+   started=true;
+ }
 });
 
-const urlParams = new URLSearchParams(window.location.search);
-        const fromQR = urlParams.get('from') === 'qr';
-        
-        if (fromQR) {
-            elements.mainContainer.style.display = 'none';
-            elements.audioOverlay.classList.add('active');
-        }
-     
+const messages=[
+["No 😐","really?"],
+["pls 🥺","think again"],
+["Biriyani? 🍛","i'm serious"],
+["ice cream? 🍦","final offer"],
+["okay fine… 😔","last chance"]
+];
 
-elements.playAudioBtn.addEventListener('click', function() {
-elements.finalMessage.play().then(() => {
-@@ -1110,6 +1108,28 @@ <h2>For You 💝</h2>
-alert('Please make sure you have the audio file ready!');
-});
-});
-const finalPlayBtn = document.getElementById('final-play-btn');
+const points=[
+"I’ll handle mood swings patiently",
+"I’ll make you laugh daily",
+"I’ll keep you fed (chocolate, snacks, pizza)",
+"I’ll go on random adventures with you",
+"I won’t be a crybaby",
+"I’ll behave — no talking to other girls",
+"I think I qualify… do I get the job? 😌"
+];
 
-finalPlayBtn.addEventListener('click', async () => {
-    try {
+let count=0;
 
-        // HARD stop background music
-        elements.backgroundMusic.pause();
-        elements.backgroundMusic.currentTime = 0;
-        elements.backgroundMusic.src = "";
-        elements.backgroundMusic.load();
+/* DODGE BUTTON */
+document.addEventListener("mousemove",e=>{
+ if(count>=messages.length) return;
 
-        // play your recording
-        elements.finalMessage.currentTime = 0;
-        await elements.finalMessage.play();
+ const rect=no.getBoundingClientRect();
+ const dx=e.clientX-(rect.left+rect.width/2);
+ const dy=e.clientY-(rect.top+rect.height/2);
+ const dist=Math.hypot(dx,dy);
 
-        finalPlayBtn.innerText = "💝";
-        triggerConfetti();
-
-    } catch (err) {
-        alert("tap once more ❤️");
-    }
+ if(dist<120){
+   no.style.left=Math.random()*70+"vw";
+   no.style.top=Math.random()*70+"vh";
+ }
 });
 
-window.addEventListener('resize', () => {
-elements.confettiCanvas.width = window.innerWidth;
-@@ -1119,3 +1139,4 @@ <h2>For You 💝</h2>
+/* NO CLICK */
+no.onclick=()=>{
+ if(count<messages.length){
+   no.innerText=messages[count][0];
+   hint.innerText=messages[count][1];
+
+   why.style.display="block";
+   const div=document.createElement("div");
+   div.className="point";
+   div.innerText=points[count];
+   why.appendChild(div);
+
+   yes.style.transform=`scale(${1+count*0.15})`;
+   count++;
+ }
+ else{
+   no.style.display="none";
+   hint.innerText="only one option left 😌";
+ }
+};
+
+/* YES CLICK */
+yes.onclick=()=>{
+ main.style.display="none";
+ success.style.display="block";
+};
+
+/* FINAL PLAY */
+play.onclick=async()=>{
+ try{
+   bg.pause();
+   bg.currentTime=0;
+   await voice.play();
+   play.innerText="💝";
+ }catch{
+   alert("tap again ❤️");
+ }
+};
+
+</script>
 </body>
 </html>
-
+```
