@@ -297,14 +297,16 @@
 
                         /* REWARDS PAGE SUBTITLE FIX */
             
-            .coupon-screen .coupon-subtitle {
-                font-family: 'Segoe UI', 'Trebuchet MS', cursive;
-                font-size: 1.2em;
-                color: #ff8fab;
-                letter-spacing: 0.4px;
-                font-weight: 500;
-                text-transform: none;
-                opacity: 0.95;
+            /* FORCE REWARDS SUBTITLE STYLE */
+
+            .coupon-screen .coupon-card .coupon-subtitle {
+                font-family: 'Segoe UI', 'Trebuchet MS', cursive !important;
+                font-size: 1.2em !important;
+                color: #ff8fab !important;
+                letter-spacing: 0.4px !important;
+                font-weight: 500 !important;
+                text-transform: none !important;
+                opacity: 0.95 !important;
             }
 
             50% { 
@@ -1171,6 +1173,7 @@ finalPlayBtn.addEventListener('click', async () => {
     </script>
 </body>
 </html>
+
 
 
 
