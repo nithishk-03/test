@@ -781,12 +781,7 @@
     </div>
 </div>
 
-    <div class="audio-overlay" id="audio-overlay">
-        <div class="audio-player">
-            <h2>For You 💝</h2>
-            <button class="play-button" id="play-audio-btn">▶</button>
-        </div>
-    </div>
+
 
     <audio id="background-music" loop>
         <source src="the-metro-proposal-320k_9szize74.mp3" type="audio/mpeg">
@@ -838,8 +833,6 @@
             confettiCanvas: document.getElementById('confetti-canvas'),
             backgroundMusic: document.getElementById('background-music'),
             finalMessage: document.getElementById('final-message'),
-            audioOverlay: document.getElementById('audio-overlay'),
-            playAudioBtn: document.getElementById('play-audio-btn'),
             heartsBackground: document.getElementById('hearts-bg'),
             whyYesSection: document.getElementById('why-yes-section'),
             whyYesTitle: document.getElementById('why-yes-title'),
@@ -1099,15 +1092,7 @@
         const urlParams = new URLSearchParams(window.location.search);
      
 
-        elements.playAudioBtn.addEventListener('click', function() {
-            elements.finalMessage.play().then(() => {
-                elements.audioOverlay.innerHTML = '<div class="success-message">💝</div>';
-                triggerConfetti();
-            }).catch(err => {
-                console.log('Audio play error:', err);
-                alert('Please make sure you have the audio file ready!');
-            });
-        });
+       
 const finalPlayBtn = document.getElementById('final-play-btn');
 
 finalPlayBtn.addEventListener('click', async () => {
@@ -1138,4 +1123,5 @@ finalPlayBtn.addEventListener('click', async () => {
     </script>
 </body>
 </html>
+
 
